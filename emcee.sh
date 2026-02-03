@@ -1,13 +1,13 @@
 #!/bin/bash -l
-#SBATCH --qos=debug
+#SBATCH --qos=shared
 #SBATCH -A des
-#SBATCH -J cluster_test
+#SBATCH -J emcee_cluster
 #SBATCH -n 1
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=52
 #SBATCH --constraint=cpu
-#SBATCH -t 00:30:00
-#SBATCH -o cluster_test.log
-#SBATCH -e cluster_test.error
+#SBATCH -t 47:30:00
+#SBATCH -o emcee.log
+#SBATCH -e emcee.error
 
 export TOP_DIR=/global/common/software/des/jesteves
 export COSMOSIS_REPO_DIR=${TOP_DIR}/cosmosis
@@ -48,5 +48,5 @@ source setup-cosmosis-nersc /global/common/software/des/common/Conda_Envs/cosmos
 #cd y1_rerun/y1_rerun_paperchain/
 
 # Run the chain
-#mpirun -n 120 cosmosis --mpi jobscript_perlmutter.ini
-mpirun -n 10 cosmosis --mpi jobscript_perlmutter.ini -p runtime.sampler='polychord'
+mpirun -n 52 cosmosis --mpi emcee.ini
+#mpirun -n 10 cosmosis --mpi jobscript_perlmutter.ini -p runtime.sampler='polychord'
