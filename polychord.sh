@@ -2,8 +2,8 @@
 #SBATCH --qos=shared
 #SBATCH -A des
 #SBATCH -J cluster_test
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=120
+#SBATCH --ntasks=120
+#SBATCH --cpus-per-task=1
 #SBATCH --constraint=cpu
 #SBATCH -t 47:30:00
 #SBATCH -o polychord2.log
@@ -25,7 +25,7 @@ export GPU_INT_DIR=${INTEGRATION_TOOLS_DIR}/gpuintegration
 
 #### We set OMP_NUM_THREADS to avoid oversubscribing the CPU cores.
 ##### This value has not been carefully tuned.
-export OMP_NUM_THREADS=4
+export OMP_NUM_THREADS=1
 
 ##### Now set up CosmoSIS
 source ${COSMOSIS_REPO_DIR}/setup-cosmosis-nersc /global/common/software/des/common/Conda_Envs/y3cl_je
@@ -50,5 +50,5 @@ source setup-cosmosis-nersc /global/common/software/des/common/Conda_Envs/cosmos
 ##### Run the chain
 ##### mpirun -n 120 cosmosis --mpi jobscript_perlmutter.ini
 #### srun -n 10 cosmosis --mpi jobscript_perlmutter.ini -p runtime.sampler='polychord'
-mpirun -n 120 cosmosis --mpi polychord.ini -p runtime.sampler='polychord'
-#srun -n 120 -c 1 --mem-per-cpu=2G cosmosis --mpi jobscript_perlmutter.ini -p runtime.sampler='polychord'
+#mpirun -n 120 cosmosis --mpi polychord.ini -p runtime.sampler='polychord'
+srun -n 120 -c 1 --mem-per-cpu=1G cosmosis --mpi jobscript_perlmutter.ini -p runtime.sampler='polychord'
